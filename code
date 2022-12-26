@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Student Enrollment Form</title>
+</head>
+<body>
+<h1>Student Enrollment Form</h1>
+<form method="post" action="process.php">
+<label>Roll No: </label>
+<input type="text" name="roll_no" id="roll_no" value="" />
+<br/>
+<label>Full Name: </label>
+<input type="text" name="full_name" id="full_name" value="" />
+<br/>
+<label>Class: </label>
+<input type="text" name="class" id="class" value="" />
+<br/>
+<label>Birth Date: </label>
+<input type="text" name="birth_date" id="birth_date" value="" />
+<br/>
+<label>Address: </label>
+<input type="text" name="address" id="address" value="" />
+<br/>
+<label>Enrollment Date: </label>
+<input type="text" name="enrollment_date" id="enrollment_date" value="" />
+<br/>
+<input type="submit" name="save" value="Save" disabled="disabled" />
+<input type="submit" name="update" value="Update" disabled="disabled" />
+<input type="reset" name="reset" value="Reset" disabled="disabled" />
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#roll_no').focus();
+$('#roll_no').keyup(function(){
+var roll_no = $(this).val();
+if(roll_no.length > 0){
+$.ajax({
+url:'process.php',
+type:'POST',
+data:'roll_no='+roll_no,
+success:function(data){
+if(data == 'exists'){
+$('#full_name').val(data.full_name);
+$('#class').val(data.class);
+$('#birth_date').val(data.birth_date);
+$('#address').val(data.address);
+$('#enrollment_date').val(data.enrollment_date);
+$('#update').removeAttr('disabled');
+$('#reset').removeAttr('disabled');
+}else{
+$('#update').attr('disabled','disabled');
+$('#reset').attr('disabled','disabled');
+}
+}
+});
+}
+});
+$('#reset').click(function(){
+$('#roll_no').focus();
+$('#full_name').val('');
+$('#class').val('');
+$('#birth_date').val('');
+$('#address').val('');
+$('#enrollment_date').val('');
+$('#update').attr('disabled','disabled');
+$('#reset').attr('disabled','disabled');
+});
+});
+</script>
+</body>
+</html>
